@@ -1,3 +1,9 @@
+# testing
+test*
+
+# binaries
+cat/cat
+
 # Prerequisites
 *.d
 
