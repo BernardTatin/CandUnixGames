@@ -34,7 +34,7 @@
  * SUCH DAMAGE.
  */
 
-#define REGISTER register
+#define REGISTER
 
 #ifndef lint
 char copyright[] =

@@ -3,6 +3,7 @@ test*
 
 # binaries
 cat/cat
+cat/cat.Bell
 
 # Prerequisites
 *.d
