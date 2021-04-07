@@ -4,7 +4,7 @@
 
 CC ?= gcc
 LD ?= $(CC)
-CFLAGS = 
+CFLAGS ?= 
 
 all: cat.386BSD-Release cat.Bell-Release
 
