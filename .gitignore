@@ -4,6 +4,7 @@ test*
 # binaries
 cat/cat.386BSD-Release 
 cat/cat.Bell-Release 
+sizeof/sizeof
 
 # Prerequisites
 *.d
