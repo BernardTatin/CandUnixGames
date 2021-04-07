@@ -1,5 +1,12 @@
 /*
  * sizeof.c
+ *
+ * Open Watcom v2:
+ *      owcc -o sizeof.ow -Wall -Wextra -std=c99 sizeof.c && ./sizeof.ow
+ * gcc:
+ *      gcc -Wall -Wextra -std=c11 sizeof.c -o sizeof && ./sizeof
+ * clang:
+ *      clang -Wall -Wextra -std=c11 sizeof.c -o sizeof && ./sizeof
  */
 
 #include <stdio.h>
