@@ -10,6 +10,7 @@
  */
 
 #include <stdio.h>
+#include <string.h>
 
 static char *get_compiler_name(void) {
     static char compiler_name[256];
