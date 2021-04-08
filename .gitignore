@@ -6,6 +6,7 @@ cat/cat.386BSD-Release
 cat/cat.Bell-Release 
 sizeof/sizeof
 sizeof/sizeof.ow
+overflow/overflow
 
 # Prerequisites
 *.d
