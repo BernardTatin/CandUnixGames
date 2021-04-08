@@ -2,7 +2,11 @@
 
 A good exercise which recall me that integers are only 32 bits, and not 64 as I thought - on my machine.
 
-Here are some results:
+## results
+
+Here are some results.
+
+### gcc and clang
 
 | Processor | OS            | Intel(R) Core(TM) i5-3320M |
 | --------- | ------------- | -------------------------: |
@@ -22,6 +26,7 @@ Here are some results:
 | double      |          64 |            8 |
 | long double |         128 |           16 |
 
+### Open Watcom
 
 | Processor | OS            | Intel(R) Core(TM) i5-3320M |
 | --------- | ------------- | -------------------------: |
@@ -39,11 +44,13 @@ Here are some results:
 | double      |          64 |            8 |
 | long double |          64 |            8 |
 
+## How to compile
+
 Compilation was done with these command line:
 
 | Compiler    | Command line                                      |
 | ----------- | ------------------------------------------------- |
 | gcc         | `gcc -Wall -Wextra -std=c11 sizeof.c -o sizeof`   |
 | clang       | `clang -Wall -Wextra -std=c11 sizeof.c -o sizeof` |
-| Open watcom | `owcc -o sizeof -Wall -Wextra -std=c99 sizeof.c`  |
+| Open Watcom | `owcc -o sizeof -Wall -Wextra -std=c99 sizeof.c`  |
 
