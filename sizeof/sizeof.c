@@ -11,15 +11,19 @@
 
 #include <stdio.h>
 
+static char *get_compiler_name(void) {
+    static char compiler_name[256];
 #if defined(__GNUC__) && !defined(__clang__)
-#define COMPILER "gcc"
+    sprintf(compiler_name, "gcc %d.%d.%d", __GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__);
 #elif defined(__clang__)
-#define COMPILER "clang-" __clang_version__
+    sprintf(compiler_name, "clang %s", __clang_version__);
 #elif defined(__WATCOMC__)
-#define COMPILER "open watcom"
+    strcpy(compiler_name, "Open Watcom");
 #else
-#define COMPILER "Unknown compiler"
+    strcpy(compiler_name, "Unknown compiler");
 #endif
+    return compiler_name;
+}
 
 #define SHOW_TYPE(type)     printf("%-13s | %6ld | %7ld |\n", \
     #type, 8 * sizeof(type), sizeof(type))
@@ -29,7 +33,7 @@
 int main(void) {
     printf("--------------+--------+---------+\n");
     printf("Size of all in C\n");
-    printf("%s\n", COMPILER);
+    printf("%s\n", get_compiler_name());
     printf("--------------+--------+---------+\n");
     printf("%-13s | %16s |\n", "Type", "Size");
     printf("%-13s | %6s | %7s |\n", "", "bits", "bytes");
