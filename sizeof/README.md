@@ -1,6 +1,6 @@
 # sizeof.c
 
-A good exercise which recall me that integers are only 32 bits, and not 64 as I thought - on my machine.
+A good exercise which recall me that integers are only 32 bits, and not 64 as I thought (only tested on my laptop).
 
 ## results
 
@@ -10,7 +10,9 @@ Here are some results.
 
 | Processor | OS            | Intel(R) Core(TM) i5-3320M |
 | --------- | ------------- | -------------------------: |
+| Compiler  | Linux 64 bits |                 gcc  9.3.0 |
 | Compiler  | Linux 64 bits |                 gcc 10.2.0 |
+| Compiler  | Linux 64 bits |               clang  9.0.1 |
 | Compiler  | Linux 64 bits |               clang 10.0.0 |
 
 
@@ -30,7 +32,7 @@ Here are some results.
 
 | Processor | OS            | Intel(R) Core(TM) i5-3320M |
 | --------- | ------------- | -------------------------: |
-| Compiler  | Linux 64 bits |                Open Watcom |
+| Compiler  | Linux 64 bits |          Open Watcom 13.00 |
 
 | Data Type   | Size (bits) | Size (bytes) |
 | ----------- | ----------: | -----------: |

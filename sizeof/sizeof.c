@@ -19,7 +19,7 @@ static char *get_compiler_name(void) {
 #elif defined(__clang__)
     sprintf(compiler_name, "clang %s", __clang_version__);
 #elif defined(__WATCOMC__)
-    strcpy(compiler_name, "Open Watcom");
+    sprintf(compiler_name, "Open Watcom %2d.%02d", __WATCOMC__/100, __WATCOMC__%100);
 #else
     strcpy(compiler_name, "Unknown compiler");
 #endif
