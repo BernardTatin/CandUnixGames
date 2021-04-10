@@ -1,5 +1,9 @@
 /*
  * overflow.c
+ *
+ * testing overflow of multiplication with GNU builtins
+ * or - if not available as with Watcom C - a simple
+ * function
  */
 
 #include <stdio.h>
@@ -7,35 +11,41 @@
 #include <limits.h>
 
 #if defined(__WATCOMC__)
-#define __UINT64_MAX__ (unsigned long long)-1
-#define LONG    long long
-#define UL_FORMAT   "%20I64u"
-#define ULMAX ULONGLONG_MAX
+// the only integer type with 64 bits
+#define LONG                long long
+// printing format for unsigned long long
+#define UL_FORMAT           "%20I64u"
+// max unsigned long long value
+#define ULMAX               ULONGLONG_MAX
 #if defined(with_builtins)
+// Watcom does not have builtins for multiplication
 #undef with_builtins
 #endif
 #else
-#define LONG    long
-#define UL_FORMAT   "%20lu"
-#define ULMAX ULONG_MAX
+// first type with 64 bits
+#define LONG                long
+#define UL_FORMAT           "%20lu"
+// printing format for unsigned long
+#define ULMAX               ULONG_MAX
 #endif
-#define ULONG   unsigned LONG
+// because we test factorial which is only defined
+// for positive integers, we use unsigned values
+#define ULONG               unsigned LONG
 
+// *result = m1 * m2
+// if there is overflow, return false, else return true
+static inline bool safe_mul_lu(ULONG m1, ULONG m2, ULONG *result) {
 #if defined(with_builtins)
-static inline bool safe_mul_lu(ULONG m1, ULONG m2, ULONG *result) {
     return !__builtin_umull_overflow(m1, m2, result);
-}
 #else
-static inline bool safe_mul_lu(ULONG m1, ULONG m2, ULONG *result) {
+    *result = m1 * m2;
     if (m1 > ULMAX / m2) {
-        *result = ULMAX;
         return false;
     } else {
-        *result = m1 * m2;
         return true;
     }
-}
 #endif
+}
 
 int main(void) {
     ULONG N = 1, M = 1;
@@ -48,7 +58,7 @@ int main(void) {
             printf("KO " UL_FORMAT " " UL_FORMAT "\n", N, result);
             end = true;
         } else {
-            printf("OK " UL_FORMAT " " UL_FORMAT "\n", N, result);
+            printf("OK " UL_FORMAT "! " UL_FORMAT "\n", N, result);
             M = result;
             N++;
         }
