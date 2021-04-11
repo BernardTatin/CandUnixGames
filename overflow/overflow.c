@@ -8,25 +8,40 @@
 
 #include <stdio.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include <limits.h>
 
-#if defined(__WATCOMC__)
-// the only integer type with 64 bits
-#define LONG                long long
-// printing format for unsigned long long
-#define UL_FORMAT           "%20I64u"
-// max unsigned long long value
-#define ULMAX               ULONGLONG_MAX
-#if defined(with_builtins)
-// Watcom does not have builtins for multiplication
-#undef with_builtins
-#endif
+// if no builtins or the wanted builtin
+// is not accessible, we undef with_builtins
+# if defined(with_builtins)
+#if defined(__has_builtin)
+#    if !(__has_builtin(__builtin_umull_overflow))
+#       undef with_builtins
+#    endif
 #else
-// first type with 64 bits
-#define LONG                long
-#define UL_FORMAT           "%20lu"
-// printing format for unsigned long
-#define ULMAX               ULONG_MAX
+//   __has_builtin is not defined in Watcom C and
+//   is not defined in gcc 9 but is defined in gcc 10 and clang 9 and 10
+#    if defined(__WATCOMC__) || \
+            (defined(__GNUC__) && !defined(__clang__) && (__GNUC__ > 9))
+#       undef with_builtins
+#    endif
+#endif
+#endif
+
+#if defined(__WATCOMC__)
+//  the only integer type with 64 bits
+#   define LONG                long long
+//  printing format for unsigned long long
+#   define UL_FORMAT           "%20I64u"
+//  max unsigned long long value
+#   define ULMAX               ULONGLONG_MAX
+#else
+//  first type with 64 bits
+#   define LONG                long
+//  printing format for unsigned long
+#   define UL_FORMAT           "%20lu"
+//  max unsigned long value
+#   define ULMAX               ULONG_MAX
 #endif
 // because we test factorial which is only defined
 // for positive integers, we use unsigned values
