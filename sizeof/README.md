@@ -33,6 +33,9 @@ Here are some results.
 | Processor | OS            | Intel(R) Core(TM) i5-3320M |
 | --------- | ------------- | -------------------------: |
 | Compiler  | Linux 64 bits |          Open Watcom 13.00 |
+| Processor |               |Intel Celeron N3350 1.10GHz |
+| --------- | ------------- | -------------------------: |
+| Compiler  | Win 10 64 bits|          Open Watcom 13.00 |
 
 | Data Type   | Size (bits) | Size (bytes) |
 | ----------- | ----------: | -----------: |
