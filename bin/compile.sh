@@ -10,28 +10,32 @@ docompile() {
     local exe=${exe_dir}/$(basename ${csource} .c).${compiler}
     local opt_warns="-Wall -Wextra"
     local cstandard="-std=c11"
+    local cincludes=-I../include
     local options=""
     local errors=0
 
     case ${compiler} in
         gcc*)
-            options="${opt_warns} ${cstandard} -o ${exe}"
+            options="${cincludes} ${opt_warns} ${cstandard} -o ${exe}"
             ;;
         clang*)
-            options="${opt_warns} ${cstandard} -o ${exe}"
+            options="${cincludes} ${opt_warns} ${cstandard} -o ${exe}"
             ;;
         owcc)
             cstandard="-std=c99"
-            options="${opt_warns} ${cstandard} -o ${exe}"
+            options="${cincludes}  ${opt_warns} ${cstandard} -o ${exe}"
             ;;
         nvc)
-            options="${opt_warns} ${cstandard} -o ${exe}"
+            options="${cincludes} ${opt_warns} ${cstandard} -o ${exe}"
             ;;
         *)
+            # TODO: it's an error!
             echo "${compiler}: unknown compiler"
             ;;
     esac
-    ${compiler} ${options} ${CFLAGS} ${csource} &> ${compiler}.err || errors=1
+    rm -fv ${exe} 2> ${compiler}.err >  ${compiler}.err
+    ${compiler} ${options} ${CFLAGS} ${csource} 2>> ${compiler}.err >> ${compiler}.err \
+        || errors=1
     if [ ${errors} -ne 0 ]
     then
         echo "${compiler}: errors occur"
