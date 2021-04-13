@@ -46,6 +46,7 @@ char copyright[] =
 static char sccsid[] = "@(#)cat.c	5.15 (Berkeley) 5/23/91";
 #endif /* not lint */
 
+#include <unistd.h>
 #include <sys/param.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -55,6 +56,8 @@ static char sccsid[] = "@(#)cat.c	5.15 (Berkeley) 5/23/91";
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+
+typedef unsigned int u_int;
 
 int bflag, eflag, nflag, sflag, tflag, vflag;
 int rval;
@@ -243,28 +246,13 @@ raw_cat(rfd)
 		err(0, "%s: %s", filename, strerror(errno));
 }
 
-#if __STDC__
 #include <stdarg.h>
-#else
-#include <varargs.h>
-#endif
 
 void
-#if __STDC__
 err(int ex, const char *fmt, ...)
-#else
-err(ex, fmt, va_alist)
-	int ex;
-	char *fmt;
-        va_dcl
-#endif
 {
 	va_list ap;
-#if __STDC__
 	va_start(ap, fmt);
-#else
-	va_start(ap);
-#endif
 	(void)fprintf(stderr, "cat: ");
 	(void)vfprintf(stderr, fmt, ap);
 	va_end(ap);
