@@ -1,7 +1,7 @@
 #!/bin/sh
 
 scriptname=$(basename $0)
-compilers="gcc clang owcc nvc"
+compilers="gcc-9 gcc-10 clang-9 clang-10 owcc nvc"
 exe_dir=exe
 
 docompile() {
@@ -14,6 +14,7 @@ docompile() {
     local options=""
     local errors=0
 
+    rm -fv ${exe} > ${compiler}.err >  ${compiler}.err
     case ${compiler} in
         gcc*)
             options="${cincludes} ${opt_warns} ${cstandard} -o ${exe}"
@@ -30,12 +31,16 @@ docompile() {
             ;;
         *)
             # TODO: it's an error!
-            echo "${compiler}: unknown compiler"
+            echo "${compiler}: unknown compiler" >> ${compiler}.err
+            errors=1
             ;;
     esac
-    rm -fv ${exe} 2> ${compiler}.err >  ${compiler}.err
-    ${compiler} ${options} ${CFLAGS} ${csource} 2>> ${compiler}.err >> ${compiler}.err \
-        || errors=1
+    if [ ${errors} -eq 0 ]
+    then
+        # echo "${compiler} ${options} ${CFLAGS} ${csource}"
+        ${compiler} ${options} ${CFLAGS} ${csource} 2>> ${compiler}.err >> ${compiler}.err \
+            || errors=1
+    fi
     if [ ${errors} -ne 0 ]
     then
         echo "${compiler}: errors occur"
