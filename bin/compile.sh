@@ -31,7 +31,7 @@ docompile() {
             echo "${compiler}: unknown compiler"
             ;;
     esac
-    ${compiler} ${options} ${csource} &> ${compiler}.err || errors=1
+    ${compiler} ${options} ${CFLAGS} ${csource} &> ${compiler}.err || errors=1
     if [ ${errors} -ne 0 ]
     then
         echo "${compiler}: errors occur"
