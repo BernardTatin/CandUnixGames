@@ -11,22 +11,35 @@
 #include <stdint.h>
 #include <limits.h>
 
+#include "compiler-version.h"
+
 // if no builtins or the wanted builtin
 // is not accessible, we undef with_builtins
 # if defined(with_builtins)
 #if defined(__has_builtin)
 #    if !(__has_builtin(__builtin_umull_overflow))
 #       undef with_builtins
+#    else
+#       warning "With builtins"
 #    endif
 #else
 //   __has_builtin is not defined in Watcom C and
 //   is not defined in gcc 9 but is defined in gcc 10 and clang 9 and 10
-#    if defined(__WATCOMC__) || \
-            (defined(__GNUC__) && !defined(__clang__) && (__GNUC__ > 9))
+#    if defined(__WATCOMC__) \
+            || (defined(__GNUC__) \
+            && !defined(__clang__) \
+            && (__GNUC__ > 9))
 #       undef with_builtins
 #    endif
 #endif
 #endif
+
+#if defined(with_builtins)
+static char *has_builtin_mul = "with builtins";
+#else
+static char *has_builtin_mul = "NO builtins";
+#endif
+
 
 #if defined(__WATCOMC__)
 //  the only integer type with 64 bits
@@ -67,7 +80,7 @@ int main(void) {
     ULONG result = 1;
     bool end = false;
 
-    printf("\n");
+    printf("%s\n", get_compiler_name(has_builtin_mul));
     do {
         if (!safe_mul_lu(N, M, &result)) {
             printf("KO " UL_FORMAT " " UL_FORMAT "\n", N, result);
