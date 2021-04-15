@@ -29,26 +29,26 @@
 #endif
 
 #if defined(__WATCOMC__)
-//  the only integer type with 64 bits
-#   define LONG                long long
 //  printing format for unsigned long long
 #   define UL_FORMAT           "%20I64u"
 //  max unsigned long long value
 #   define ULMAX               ULONGLONG_MAX
 #else
-//  first type with 64 bits
-#   define LONG                long
 //  printing format for unsigned long
 #   define UL_FORMAT           "%20lu"
 //  max unsigned long value
 #   define ULMAX               ULONG_MAX
 #endif
-// because we test factorial which is only defined
+// because we test factorial/fibonacci which is only defined
 // for positive integers, we use unsigned values
-// #define ULONG               unsigned LONG
 #define ULONG               uint64_t
 
 #if defined(with_builtins)
+// *result = m1 + m2
+// if there is overflow, return false, else return true
+static inline bool safe_add_lu(ULONG m1, ULONG m2, ULONG *result) {
+    return !__builtin_uaddl_overflow(m1, m2, result);
+}
 // *result = m1 * m2
 // if there is overflow, return false, else return true
 static inline bool safe_mul_lu(ULONG m1, ULONG m2, ULONG *result) {
