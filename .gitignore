@@ -10,6 +10,9 @@ overflow/overflow
 exe/
 *.err
 
+# ides
+*.code-workspace
+
 # Prerequisites
 *.d
 
