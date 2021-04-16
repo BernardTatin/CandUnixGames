@@ -12,13 +12,25 @@
 #if defined(with_builtins)
 static char *has_builtin_add = "with builtins";
 #else
-static char *has_builtin_mul = "NO builtins";
+static char *has_builtin_add = "NO builtins";
 #endif
 
 static bool compute_fibo(ULONG N, ULONG *result) {
-    ULONG N1 = 0, N2 = 1;
-    // ULONG index = 1;
+    ULONG N1 = 1, N2 = 1;
 
+    if (N < 3) {
+        int littlen = (int)N;
+        switch (littlen)
+        {
+        case 0:
+            *result = 0;
+            return true;
+        case 1:
+        case 2:
+            *result = 1;
+            return true;
+        }
+    }
     *result = 1;
     for (ULONG i=2; i<N; i++) {
         if (!safe_add_lu(N1, N2, result)) {
@@ -40,7 +52,9 @@ static void show_all_fibos(void) {
             printf("KO " UL_FORMAT " " UL_FORMAT "\n", N, result);
             end = true;
         } else {
+#if !defined(test_timing)
             printf("OK " UL_FORMAT " " UL_FORMAT "\n", N, result);
+#endif            
             N++;
         }
     } while (!end);
@@ -48,9 +62,13 @@ static void show_all_fibos(void) {
 
 
 int main(void) {
-    printf("%s\n", get_compiler_name(has_builtin_mul));
-    for (int i=0; i<50000; i++) {
+    printf("%s\n", get_compiler_name(has_builtin_add));
+#if defined(test_timing)
+    for (int i=0; i<500000; i++) {
         show_all_fibos();
     }
+#else
+    show_all_fibos();
+#endif    
     return 0;
 }
