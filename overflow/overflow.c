@@ -16,7 +16,7 @@
 #if defined(with_builtins)
 static char *has_builtin_mul = "with builtins";
 #else
-static char *has_builtin_mul = "NO builtins";
+static char *has_builtin_add = "NO builtins";
 #endif
 
 
@@ -26,7 +26,7 @@ int main(void) {
     ULONG result = 1;
     bool end = false;
 
-    printf("%s\n", get_compiler_name(has_builtin_mul));
+    printf("%s\n", get_compiler_name(has_builtin_add));
     do {
         if (!safe_mul_lu(N, M, &result)) {
             printf("KO " UL_FORMAT " " UL_FORMAT "\n", N, result);
