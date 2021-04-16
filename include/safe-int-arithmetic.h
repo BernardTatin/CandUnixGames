@@ -16,7 +16,7 @@
 #    else
 #       warning "With builtins"
 #    endif
-#else
+#else   // __has_builtin
 //   __has_builtin is not defined in Watcom C and
 //   is not defined in gcc 9 but is defined in gcc 10 and clang 9 and 10
 #    if defined(__WATCOMC__) \
@@ -25,15 +25,15 @@
             && (__GNUC__ > 9))
 #       undef with_builtins
 #    endif
-#endif
-#endif
+#endif   // __has_builtin
+#endif   // with_builtins
 
 #if defined(__WATCOMC__)
 //  printing format for unsigned long long
 #   define UL_FORMAT           "%20I64u"
 //  max unsigned long long value
 #   define ULMAX               ULONGLONG_MAX
-#else
+#else   // __WATCOMC__
 //  printing format for unsigned long
 #   define UL_FORMAT           "%20lu"
 //  max unsigned long value
@@ -54,7 +54,7 @@ static inline bool safe_add_lu(ULONG m1, ULONG m2, ULONG *result) {
 static inline bool safe_mul_lu(ULONG m1, ULONG m2, ULONG *result) {
     return !__builtin_umull_overflow(m1, m2, result);
 }
-#else
+#else   // with_builtins
 // *result = m1 + m2
 // if there is overflow, return false, else return true
 static inline bool safe_add_lu(ULONG m1, ULONG m2, ULONG *result) {
@@ -76,6 +76,6 @@ static inline bool safe_mul_lu(ULONG m1, ULONG m2, ULONG *result) {
         return true;
     }
 }
-#endif
+#endif   // with_builtins
 
 #endif // safe-int-arithmetic.h
