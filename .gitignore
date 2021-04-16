@@ -9,6 +9,7 @@ sizeof/sizeof.ow
 overflow/overflow
 exe/
 *.err
+*.log
 
 # ides
 *.code-workspace
