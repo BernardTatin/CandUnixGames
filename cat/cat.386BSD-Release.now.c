@@ -64,7 +64,12 @@ int rval;
 char *filename;
 
 void cook_args(), cook_buf(), raw_args(), raw_cat();
+#if !defined(__sun__)
 void err __P((int, const char *, ...));
+#else
+#define MAX(x, y) (x < y ? y : x)
+void err(int, const char *, ...);
+#endif
 
 int main(int argc, char **argv)
 {
